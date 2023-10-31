@@ -1,12 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { updateFormField, resetForm } from "./features/formSlice";
-import DisplayData from "./DisplayData";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function App() {
-  const [showDetails, setShowDetails] = useState(false);
   const form = useSelector((state) => state.form);
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -16,9 +15,7 @@ function App() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("form", form.length);
-    if (!form.length) return;
-    setShowDetails(true);
+    navigate("/form-details");
   };
 
   return (
@@ -123,12 +120,13 @@ function App() {
             <button className="btn reset" onClick={() => dispatch(resetForm())}>
               Reset
             </button>
-            <Link to="/form-details">
-              <button className="btn submit">Submit</button>
-            </Link>
+            {/* <Link to="/form-details"> */}
+            <button type="submit" className="btn submit">
+              Submit
+            </button>
+            {/* </Link> */}
           </div>
         </form>
-        {showDetails && <DisplayData />}
       </div>
     </div>
   );
