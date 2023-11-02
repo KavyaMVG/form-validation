@@ -1,8 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { updateFormField, resetForm } from "./features/formSlice";
 import { useNavigate } from "react-router-dom";
-import { Autocomplete, TextField } from "@mui/material";
 
+const roleOptions = [
+  "Frontend developer",
+  "Backend developer",
+  "Full stack developer",
+];
 function App() {
   const form = useSelector((state) => state.form);
 
@@ -19,12 +23,6 @@ function App() {
     e.preventDefault();
     navigate("/form-details");
   };
-
-  const allValues = [
-    { label: "Frontend Developer", role: "Frontend Developer" },
-    { label: "Backend Developer", role: "Backend Developer" },
-    { label: "Fullstack Developer", role: "Fullstack Developer" },
-  ];
 
   return (
     <div className="bg-img">
@@ -105,18 +103,18 @@ function App() {
             >
               Role:
             </label>
-            <Autocomplete
-              disablePortal
-              id="country-select-demo"
-              options={allValues}
-              sx={{ width: 225 }}
-              renderInput={(params) => <TextField {...params} label="Role" />}
-              onChange={(_e, value) => {
-                console.log(value);
-                dispatch(updateFormField({ field: "role", value: value.role }));
-              }}
-              value={form.role || null}
-            />{" "}
+            <input
+              className="input-field shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              list="roleOptions"
+              onChange={handleChange}
+              value={form.role}
+              name="role"
+            />
+            <datalist id="roleOptions">
+              {roleOptions.map((option, idx) => (
+                <option key={idx} value={option} />
+              ))}
+            </datalist>
           </div>
 
           <div className="form-field">
